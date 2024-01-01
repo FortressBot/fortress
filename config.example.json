@@ -1,0 +1,4 @@
+{
+    "token": "bot token here",
+    "guildId": "guild id here (if you want server-specific commands)"
+}
