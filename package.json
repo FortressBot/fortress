@@ -1,6 +1,6 @@
 {
-  "name": "",
-  "description": "",
+  "name": "fortress",
+  "description": "🏰 A quite incredible security-focused open-source Discord bot.",
   "version": "1.0.0",
   "main": "src/index.ts",
   "scripts": {

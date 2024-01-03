@@ -201,11 +201,49 @@ export default new Command({
 
                 const userjoined = `<t:${Math.round(member.joinedTimestamp / 1000)}> (<t:${Math.round(member.joinedTimestamp / 1000)}:R>)`;
                 const usercreated = `<t:${Math.round(user.createdTimestamp / 1000)}> (<t:${Math.round(user.createdTimestamp / 1000)}:R>)`;
+
+                let vcstatus;
+
+                if(!member.voice.channel) vcstatus = `User is not connected to voice.`;
+                else if(member.voice.channel) vcstatus = `User is connected to voice (<#${member.voice.channel.id}>).\nConnected with ${member.voice.channel.members.size - 1} other members.`;
+
+                return interaction.reply({
+                    embeds: [
+                        new EmbedBuilder()
+                        .setTitle(`User Status - <@${member.id}>`)
+                        .setFields(
+                            { name: 'User Joined', value: `${userjoined}`, inline: true },
+                            { name: 'User Created', value: `${usercreated}`, inline: true },
+                            { name: `VC Status`, value: `${vcstatus}`, inline: true }
+                        )
+                    ]
+                });
             }
             break;
 
             case 'recentpunishments': {
+                const user = opts.getUser('user') || interaction.user;
+                const member = await guild.members.cache.get(user.id);
+                if(!member) throw "That member is not in this server.";
+                const mutes = await guild.fetchAuditLogs({ user: member.id, type: AuditLogEvent.MemberUpdate });
+                const bans = await guild.fetchAuditLogs({ user: member.id, type: AuditLogEvent.MemberBanAdd });
+                const kicks = await guild.fetchAuditLogs({ user: member.id, type: AuditLogEvent.MemberKick });
+                const roleupdates = await guild.fetchAuditLogs({ user: member.id, type: AuditLogEvent.MemberRoleUpdate });
 
+                return interaction.reply({
+                    embeds: [
+                        new EmbedBuilder()
+                        .setTitle(`User's Recent Infractions - <@${member.id}>`)
+                        .setDescription(`Below are the punishments/infractions that this user has received.`)
+                        .setFields(
+                            { name: 'Mutes (may not be accurate)', value: `${mutes.entries.size}`, inline: true },
+                            { name: 'Bans', value: `${bans.entries.size}`, inline: true },
+                            { name: 'Kicks', value: `${kicks.entries.size}`, inline: true },
+                            { name: 'Role Updates', value: `${roleupdates.entries.size}`, inline: true }
+                        )
+                        .setColor('Blurple')
+                    ]
+                });
             }
             break;
         }
