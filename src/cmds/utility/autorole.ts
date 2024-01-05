@@ -2,6 +2,8 @@ import { Command } from "../../structures/Command";
 import Autorole from "../../models/Autorole";
 import { ApplicationCommandOptionType } from "discord.js";
 import Reply from "../../functions/reply";
+import getFortressEmoji from "../../functions/getfortressemoji";
+import ConstructEmbed from "../../functions/embedconstructor";
 
 export default new Command({
     name: 'autorole',
@@ -42,7 +44,7 @@ export default new Command({
         }
     ],
 
-    run: async({ interaction, guild, opts }) => {
+    run: async({ interaction, guild, opts, client }) => {
         const sub = opts.getSubcommand();
         const ro = opts.getRole('role');
         const autorolesys = await Autorole.findOne({ Guild: guild.id });
