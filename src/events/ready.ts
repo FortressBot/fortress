@@ -4,7 +4,7 @@ import { ActivityType } from "discord.js";
 
 export default new Event("ready", async(client) => {
     client.user.setActivity({
-        name: `he protec`,
+        name: `watching over your server.`,
         type: ActivityType.Custom,
     });
 
