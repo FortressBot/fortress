@@ -9,6 +9,18 @@ export default new Event("roleDelete", async(r) => {
 
     const rp = await RaidProtection.findOne({ Guild: guild.id }); // fetch db data
 
+    if(!rp) {
+        return await RaidProtection.create({
+            Guild: guild.id,
+            ChannelCreateLimit: 3,
+            ChannelDeleteLimit: 3,
+            Exceptions: [],
+            GuildBanAddLimit: 3,
+            RoleCreateLimit: 3,
+            RoleDeleteLimit: 3
+        });
+    }
+
     if(r.managed === true) return;
 
     const log = await guild.fetchAuditLogs({

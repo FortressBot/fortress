@@ -9,6 +9,18 @@ export default new Event("guildBanAdd", async(c) => {
 
     const rp = await RaidProtection.findOne({ Guild: guild.id }); // fetch db data
 
+    if(!rp) {
+        return await RaidProtection.create({
+            Guild: guild.id,
+            ChannelCreateLimit: 3,
+            ChannelDeleteLimit: 3,
+            Exceptions: [],
+            GuildBanAddLimit: 3,
+            RoleCreateLimit: 3,
+            RoleDeleteLimit: 3
+        });
+    }
+
     const log = await guild.fetchAuditLogs({
         type: AuditLogEvent.MemberBanAdd
     }).then(audit => audit.entries.first());
