@@ -1,6 +1,5 @@
 import { Command } from "../../structures/Command";
 import AntiGhostPing from "../../models/AntiGhostPing";
-import Reply from "../../functions/reply";
 import getFortressEmoji from "../../functions/getfortressemoji";
 import ConstructEmbed from "../../functions/embedconstructor";
 

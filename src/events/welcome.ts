@@ -27,7 +27,7 @@ export default new Event("guildMemberAdd", async(m) => {
                     .setTitle(`New Member Joined!`)
                     .setDescription(`<@${m.id}>, welcome to the server!\n\n**${modtick} Check out our rules/guidelines: <#${wel.RulesChannel}>**\n**${anc} Get notified when new things happen: <#${wel.AnnouncementsChannel}>**\n**${msg} Chat with other members of the server: <#${wel.ChatChannel}>**`)
                     .setFields(
-                        { name: 'User Created', value: `<t:${Math.round(m.user.createdTimestamp / 1000)} (<t:${Math.round(m.user.createdTimestamp / 1000)}:R>)>`, inline: true },
+                        { name: 'User Created', value: `<t:${Math.round(m.user.createdTimestamp / 1000)}> (<t:${Math.round(m.user.createdTimestamp / 1000)}:R>)`, inline: true },
                         { name: 'User Joined', value: `<t:${Math.round(m.joinedTimestamp / 1000)}> (<t:${m.joinedTimestamp / 1000}:R>)`, inline: true }
                     )
                     .setThumbnail(m.displayAvatarURL({ size: 2048 }))
