@@ -71,6 +71,12 @@ export default async function getFortressEmoji(client: ExtendedClient, emoji: st
         e = await client.emojis.cache.get(emojis.online)
     } else if (emoji === 'dnd') {
         e = await client.emojis.cache.get(emojis.dnd)
+    } else if (emoji === 'emoji') {
+        e = await client.emojis.cache.get(emojis.emoji)
+    } else if (emoji === 'addemoji') {
+        e = await client.emojis.cache.get(emojis.addemoji)
+    } else if (emoji === 'removeemoji') {
+        e = await client.emojis.cache.get(emojis.removeemoji)
     }
 
     return e;

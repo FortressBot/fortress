@@ -7,6 +7,8 @@ import Reply from "../../functions/reply";
 export default new Command({
     name: 'role',
     description: 'Grant/remove/check roles',
+    userPermissions: ["ManageRoles"],
+    clientPermissions: ["ManageRoles"],
     options: [
         {
             name: 'grant',
