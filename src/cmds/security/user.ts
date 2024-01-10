@@ -2,6 +2,8 @@ import { ApplicationCommandOptionType, AuditLogEvent, EmbedBuilder } from "disco
 import { Command } from "../../structures/Command";
 import Reply from "../../functions/reply";
 import Punishment from "../../models/Punishment";
+import ConstructEmbed from "../../functions/embedconstructor";
+import getFortressEmoji from "../../functions/getfortressemoji";
 
 export default new Command({
     name: 'user',
@@ -90,12 +92,44 @@ export default new Command({
                     type: ApplicationCommandOptionType.User
                 }
             ]
+        },
+        {
+            name: 'unban',
+            description: 'Unban a user using their ID!',
+            type: ApplicationCommandOptionType.Subcommand,
+            options: [
+                {
+                    name: 'userid',
+                    description: 'The ID of the user.',
+                    required: true,
+                    type: ApplicationCommandOptionType.String,
+                    max_length: 18,
+                }
+            ]
+        },
+        {
+            name: 'excuse',
+            description: 'Excuse a member of their timeout',
+            type: ApplicationCommandOptionType.Subcommand,
+            options: [
+                {
+                    name: 'user',
+                    description: 'The user you want to timeout',
+                    type: ApplicationCommandOptionType.User,
+                    required: true,
+                }
+            ]
         }
     ],
 
-    run: async({ interaction, guild, opts }) => {
+    run: async({ interaction, guild, opts, client }) => {
         const sub = opts.getSubcommand();
         const user = opts.getUser('user');
+        const userid = opts.getString('userid');
+
+        const unban = await getFortressEmoji(client, 'unban');
+        const mod = await getFortressEmoji(client, 'mod');
+        const mem = await getFortressEmoji(client, 'member');
 
         switch(sub) {
             case 'ban': {
@@ -244,6 +278,35 @@ export default new Command({
                         .setColor('Blurple')
                     ]
                 });
+            }
+            break;
+
+            case 'unban': {
+                await guild.bans.fetch();
+
+                const bannedmember = await guild.bans.cache.find((b) => b.user.id === userid);
+                if(!bannedmember) throw "That member is not banned in this server.";
+
+                await guild.bans.remove(userid);
+
+                const e = await ConstructEmbed(interaction, `${unban} Member unbanned.\n**${mod} Moderator: <@${interaction.member.id}>**\n**${mem} Member unbanned: <@${userid}>**`);
+
+                return interaction.reply({
+                    embeds: [e.embed]
+                });
+            }
+            break;
+
+            case 'excuse': {
+                const member = await guild.members.cache.get(user.id);
+                if(!member) throw "That member is not in this server.";
+
+                if(member.isCommunicationDisabled() === true) {
+                    member.timeout(null);
+                    return interaction.reply({
+                        content: `Successfully excused <@${member.id}> of their timeout.`
+                    });
+                } else throw "That user isn't timed out!";
             }
             break;
         }

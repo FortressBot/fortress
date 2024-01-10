@@ -101,7 +101,7 @@ export default new Command({
                 const e = await ConstructEmbed(interaction, `${addrole} A role has been added to a user.\n**${mod} Moderator: <@${interaction.member.id}>**\n**${memberemoji} Member: <@${member.id}>**\n**${role_emoji} Role: <@&${role.id}>**`);
 
                 return interaction.reply({
-                    embeds: [e]
+                    embeds: [e.embed]
                 });
             }
             break;
@@ -120,7 +120,7 @@ export default new Command({
                 const e = await ConstructEmbed(interaction, `${removerole} A role has been removed from a user.\n**${mod} Moderator: <@${interaction.member.id}>**\n**${memberemoji} Member: <@${member.id}>**\n**${role_emoji} Role: <@&${role.id}>**`);
 
                 return interaction.reply({
-                    embeds: [e]
+                    embeds: [e.embed]
                 });
             }
             break;

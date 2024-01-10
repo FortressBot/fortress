@@ -88,7 +88,7 @@ export default new Command({
                 const e = await ConstructEmbed(interaction, `${tick} Welcome system has been set up.\n**${mod} Moderator: <@${interaction.member.id}>**\n**${ping} Welcome Channel: <#${validch1.id}>**`);
 
                 return interaction.reply({
-                    embeds: [e]
+                    embeds: [e.embed]
                 });
             }
             break;
@@ -102,7 +102,7 @@ export default new Command({
                 const e = await ConstructEmbed(interaction, `${tick} Welcome system has been disabled.\n**${mod} Moderator: <@${interaction.member.id}>**`);
 
                 return interaction.reply({
-                    embeds: [e]
+                    embeds: [e.embed]
                 });
             }
             break;

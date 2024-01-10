@@ -22,13 +22,13 @@ export default new Command({
             });
 
             return interaction.reply({
-                embeds: [embed1]
+                embeds: [embed1.embed]
             });
         } else {
             await agp.deleteOne({ new: true });
 
             return interaction.reply({
-                embeds: [embed2]
+                embeds: [embed2.embed]
             });
         }
     }

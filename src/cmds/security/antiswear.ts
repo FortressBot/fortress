@@ -74,7 +74,7 @@ export default new Command({
                 as.save();
 
                 return interaction.reply({
-                    embeds: [embed3]
+                    embeds: [embed3.embed]
                 });
             }
             break;
@@ -92,7 +92,7 @@ export default new Command({
                 as.save();
 
                 return interaction.reply({
-                    embeds: [embed4]
+                    embeds: [embed4.embed]
                 })
             }
             break;
@@ -104,13 +104,13 @@ export default new Command({
                     });
                     
                     return interaction.reply({
-                        embeds: [embed1]
+                        embeds: [embed1.embed]
                     })
                 } else {
                     await as.deleteOne({ new: true });
         
                     return interaction.reply({
-                        embeds: [embed2]
+                        embeds: [embed2.embed]
                     })
                 }
             }

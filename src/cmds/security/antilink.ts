@@ -42,13 +42,13 @@ export default new Command({
                 });
             
                 return interaction.reply({
-                    embeds: [embed1]
+                    embeds: [embed1.embed]
                 });
             } else {
                 await al.deleteOne({ new: true });
     
                 return interaction.reply({
-                    embeds: [embed3]
+                    embeds: [embed3.embed]
                 });
             }
         } else if (mode === 'blockall') {
@@ -59,13 +59,13 @@ export default new Command({
                 });
     
                 return interaction.reply({
-                    embeds: [embed2]
+                    embeds: [embed2.embed]
                 })
             } else {
                 await al.deleteOne({ new: true });
     
                 return interaction.reply({
-                    embeds: [embed3]
+                    embeds: [embed3.embed]
                 });
             }
         }

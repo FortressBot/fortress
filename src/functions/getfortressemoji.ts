@@ -77,6 +77,10 @@ export default async function getFortressEmoji(client: ExtendedClient, emoji: st
         e = await client.emojis.cache.get(emojis.addemoji)
     } else if (emoji === 'removeemoji') {
         e = await client.emojis.cache.get(emojis.removeemoji)
+    } else if (emoji === 'unban') {
+        e = await client.emojis.cache.get(emojis.unban)
+    } else if (emoji === 'antilink') {
+        e = await client.emojis.cache.get(emojis.antilink)
     }
 
     return e;

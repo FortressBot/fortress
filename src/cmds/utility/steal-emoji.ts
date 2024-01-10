@@ -68,7 +68,7 @@ export default new Command({
         const embed = await ConstructEmbed(interaction, `${addemoji} An emoji has been stolen.\n**${mod} User: <@${interaction.member.id}>**\n**${emo} Emoji: ${e}**\n**${search} Emoji Name: ${name}**`);
 
         return interaction.reply({
-            embeds: [embed]
+            embeds: [embed.embed]
         });
     }
 });

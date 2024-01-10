@@ -65,7 +65,7 @@ export default new Command({
                 const e = await ConstructEmbed(interaction, `${config} Raid Protection Exception Added.\n**${adduser} Exception Added: <@${member.id}>**\n**${mod} Moderator: <@${interaction.member.id}>**`);
 
                 return interaction.reply({
-                    embeds: [e]
+                    embeds: [e.embed]
                 });
             }
             break;
@@ -81,7 +81,7 @@ export default new Command({
                 const e = await ConstructEmbed(interaction, `${config} Raid Protection Exception Removed.\n**${removeuser} Exception Removed: <@${member.id}>**\n**${mod} Moderator: <@${interaction.member.id}>**`);
 
                 return interaction.reply({
-                    embeds: [e]
+                    embeds: [e.embed]
                 });
             }
             break;

@@ -1,4 +1,4 @@
-import { EmbedBuilder } from "discord.js"
+import { EmbedBuilder, ButtonBuilder, ButtonStyle, ActionRowBuilder } from "discord.js"
 import { ExtendedInteraction } from "../typings/Command"
 
 export default async function ConstructEmbed(interaction: ExtendedInteraction, msg: string) {
@@ -7,5 +7,14 @@ export default async function ConstructEmbed(interaction: ExtendedInteraction, m
         .setFooter({ text: `Fortress`, iconURL: `${interaction.guild.members.me.displayAvatarURL({ size: 1024 })}` })
         .setDescription(`${msg}`)
     
-    return embed;
+    const button = new ButtonBuilder()
+        .setCustomId('dismiss')
+        .setEmoji('🗑️')
+        .setLabel('Dismiss')
+        .setStyle(ButtonStyle.Danger)
+    
+    const row = new ActionRowBuilder<ButtonBuilder>()
+    .addComponents(button)
+    
+    return { embed, row };
 }

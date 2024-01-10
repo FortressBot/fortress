@@ -86,11 +86,11 @@ export default new Command({
                         const e = await ConstructEmbed(interaction, `${lock} A server-wide lockdown has been triggered.\n**${mod} Moderator: <@${interaction.member.id}>**`);
 
                         validch.send({
-                            embeds: [e]
+                            embeds: [e.embed]
                         });
 
                         interaction.reply({
-                            embeds: [e],
+                            embeds: [e.embed],
                             ephemeral: true,
                         });
 
@@ -125,11 +125,11 @@ export default new Command({
                         const e = await ConstructEmbed(interaction, `${unlock} The server-wide lockdown has been lifted.\n**${mod} Moderator: <@${interaction.member.id}>**`);
 
                         validch.send({
-                            embeds: [e]
+                            embeds: [e.embed]
                         });
 
                         interaction.reply({
-                            embeds: [e],
+                            embeds: [e.embed],
                             ephemeral: true,
                         });
 

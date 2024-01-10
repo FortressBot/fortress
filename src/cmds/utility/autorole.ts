@@ -1,6 +1,6 @@
 import { Command } from "../../structures/Command";
 import Autorole from "../../models/Autorole";
-import { ApplicationCommandOptionType } from "discord.js";
+import { ActionRowBuilder, ApplicationCommandOptionType } from "discord.js";
 import Reply from "../../functions/reply";
 import getFortressEmoji from "../../functions/getfortressemoji";
 import ConstructEmbed from "../../functions/embedconstructor";
@@ -30,13 +30,26 @@ export default new Command({
             type: ApplicationCommandOptionType.Subcommand
         },
         {
-            name: 'change',
-            description: 'Change the role given to new users!',
+            name: 'add',
+            description: 'Add a role to the autorole system',
             type: ApplicationCommandOptionType.Subcommand,
             options: [
                 {
                     name: 'role',
-                    description: 'The role you want to give to new users!',
+                    description: 'The role you want to give to new users',
+                    type: ApplicationCommandOptionType.Role,
+                    required: true
+                }
+            ]
+        },
+        {
+            name: 'remove',
+            description: 'Remove a role from the autorole system',
+            type: ApplicationCommandOptionType.Subcommand,
+            options: [
+                {
+                    name: 'role',
+                    description: 'The role you want to remove from the autorole system',
                     type: ApplicationCommandOptionType.Role,
                     required: true,
                 }
@@ -49,6 +62,10 @@ export default new Command({
         const ro = opts.getRole('role');
         const autorolesys = await Autorole.findOne({ Guild: guild.id });
 
+        const adduser = await getFortressEmoji(client, 'adduser');
+        const removeuser = await getFortressEmoji(client, 'removeuser');
+        const mod = await getFortressEmoji(client, 'mod');
+
         switch(sub) {
             case 'enable': {
                 const role = await guild.roles.cache.get(ro.id);
@@ -58,10 +75,14 @@ export default new Command({
 
                 await Autorole.create({
                     Guild: guild.id,
-                    Role: role.id
+                    Role: [role.id]
                 });
 
-                return Reply(interaction, `Autorole system has been enabled with the role <@&${role.id}>.`, `✅`, 'Blurple', false);
+                const { embed } = await ConstructEmbed(interaction, `${adduser} Autorole system enabled.\n**${mod} Moderator: <@${interaction.member.id}>**\n**${adduser} Role: <@${role.id}>**`);
+
+                return interaction.reply({
+                    embeds: [embed]
+                });
             }
             break;
 
@@ -74,15 +95,40 @@ export default new Command({
             }
             break;
 
-            case 'change': {
-                const role = await guild.roles.cache.get(ro.id);
-                if(!role) throw "That role does not exist in this server.";
-                if(role.position >= guild.members.me.roles.highest.position) throw "That role is higher than my highest role position. Please give me a higher ranking role."
+            case 'add': {
                 if(!autorolesys) throw "The autorole system is disabled.";
+                const role = await guild.roles.cache.get(ro.id);
 
-                await Autorole.findOneAndUpdate({ Guild: guild.id }, { Role: role.id }, { new: true });
+                if(!role) throw "That role is not in this server.";
 
-                return Reply(interaction, `Autorole system has been changed.\nNew users will be given the <@&${role.id}> role.`, `✅`, 'Blurple', false);
+                autorolesys.Role.push(role.id);
+
+                const { embed } = await ConstructEmbed(interaction, `${adduser} Autorole system changed.\n**${mod} Moderator: <@${interaction.member.id}>**\n**${adduser} Role Added: <@${role.id}>**`);
+
+                return interaction.reply({
+                    embeds: [embed]
+                });
+            }
+            break;
+
+            case 'remove': {
+                if(!autorolesys) throw "The autorole system is disabled.";
+                const role = await guild.roles.cache.get(ro.id);
+
+                if(!role) throw "That role is not in this server.";
+
+                if(!autorolesys.Role.includes(role.id))
+                    throw "That role is not in the autorole system.";
+                
+                const index = autorolesys.Role.indexOf(role.id);
+                autorolesys.Role.splice(index, 1);
+                autorolesys.save();
+
+                const e = await ConstructEmbed(interaction, `${adduser} Autorole system changed.\n**${mod} Moderator: <@${interaction.member.id}>**\n**${removeuser} Role Removed: <@${role.id}>**`);
+
+                return interaction.reply({
+                    embeds: [e.embed],
+                });
             }
             break;
         }

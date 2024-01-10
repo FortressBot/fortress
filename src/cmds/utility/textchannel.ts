@@ -111,7 +111,7 @@ export default new Command({
 
                     interaction.channel.send({
                         embeds: [
-                            e
+                            e.embed
                         ]
                     });
 
@@ -128,7 +128,7 @@ export default new Command({
 
                     interaction.channel.send({
                         embeds: [
-                            e
+                            e.embed
                         ]
                     });
 
@@ -151,7 +151,7 @@ export default new Command({
                     const e = await ConstructEmbed(interaction, `${announcement} This channel has been cleared.\n**${mod} Moderator: <@${interaction.member.id}>**`);
 
                     return newch.send({
-                        embeds: [e]
+                        embeds: [e.embed]
                     });
                 } else throw "Uh oh, this channel isn't a text channel.";
             }
@@ -166,7 +166,7 @@ export default new Command({
                     const e = await ConstructEmbed(interaction, `${wait} Slowmode has been set for this channel.\n**${mod} Moderator: <@${interaction.member.id}>**`);
 
                     validch.send({
-                        embeds: [e]
+                        embeds: [e.embed]
                     });
 
                     return interaction.reply({
@@ -185,7 +185,7 @@ export default new Command({
                     const e = await ConstructEmbed(interaction, `${del} This channel has been purged of ${messages.size} messages.\n**${mod} Moderator: <@${interaction.member.id}>**`);
 
                     validch.send({
-                        embeds: [e]
+                        embeds: [e.embed]
                     });
 
                     return interaction.reply({

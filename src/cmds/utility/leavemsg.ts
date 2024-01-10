@@ -94,7 +94,7 @@ export default new Command({
                 const e = await ConstructEmbed(interaction, `${tick} LeaveMessage enabled.\n**${mod} Moderator: <@${interaction.member.id}>**\n**${msg} Message: "${message}"**\n**${ping} Channel: <#${validch.id}>**`);
 
                 return interaction.reply({
-                    embeds: [e]
+                    embeds: [e.embed]
                 });
             }
             break;
@@ -107,7 +107,7 @@ export default new Command({
                 const e = await ConstructEmbed(interaction, `${tick} LeaveMessage disabled.\n**${mod} Moderator: <@${interaction.member.id}>**`);
 
                 return interaction.reply({
-                    embeds: [e]
+                    embeds: [e.embed]
                 });
             }
             break;
@@ -126,7 +126,7 @@ export default new Command({
                 const e = await ConstructEmbed(interaction, `${tick} LeaveMessage changed.\n**${mod} Moderator: <@${interaction.member.id}>**\n**${ping} New Channel: <#${validch.id}>**`);
 
                 return interaction.reply({
-                    embeds: [e]
+                    embeds: [e.embed]
                 });
             }
             break;
@@ -140,7 +140,7 @@ export default new Command({
                 const e = await ConstructEmbed(interaction, `${tick} LeaveMessage changed.\n**${mod} Moderator: <@${interaction.member.id}>**\n**${ping} New Message: "${message}"**`);
 
                 return interaction.reply({
-                    embeds: [e]
+                    embeds: [e.embed]
                 });
             }
             break;
