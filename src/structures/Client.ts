@@ -12,6 +12,7 @@ import { Event } from "./Event";
 import glob from 'glob';
 import log from '../functions/logger';
 import config from '../../config.json';
+import mongoose from "mongoose";
 
 const globPromise = promisify(glob);
 
@@ -37,6 +38,9 @@ export class ExtendedClient extends Client {
 
     start() {
         this.registerModules();
+        if(config.mongoEnabled === true) {
+            this.mongoConnect(config.mongoURI);
+        }
         this.login(config.token);
     }
 
@@ -63,6 +67,15 @@ export class ExtendedClient extends Client {
         } else {
             this.application?.commands.set(commands);
             log(`Registering global commands`, false);
+        }
+    }
+
+    async mongoConnect(uri) {
+        const connection = await mongoose.connect(uri);
+        if(connection) {
+            return log(`Connected to FortressDB.`, false);
+        } else {
+            return log(`Error connecting to FortressDB.`, true);
         }
     }
 

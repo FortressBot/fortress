@@ -1,4 +1,6 @@
 {
     "token": "bot token here",
-    "guildId": "guild id here (if you want server-specific commands)"
+    "guildId": "guild id here (if you want server-specific commands)",
+    "mongoURI": "mongo URI here (if enabled)",
+    "mongoEnabled": false
 }
