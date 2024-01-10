@@ -9,7 +9,7 @@ if you wish to clone the beta repository, follow the steps below:
 
 # clone this repository:
 
-````git clone -b main https://github.com/fortressbot/fortress````
+````git clone -b beta https://github.com/fortressbot/fortress````
 ### then use
 
 ``npm i`` or ``npm install`` & run ``npm run nodemon`` or ``npm run start``
