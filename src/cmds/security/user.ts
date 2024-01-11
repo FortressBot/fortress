@@ -69,31 +69,6 @@ export default new Command({
             ]
         },
         {
-            name: 'status',
-            description: 'Get the VC status & online status of a user!',
-            type: ApplicationCommandOptionType.Subcommand,
-            options: [
-                {
-                    name: 'user',
-                    description: 'The user you want to inspect!',
-                    type: ApplicationCommandOptionType.User
-                }
-            ]
-        },
-        {
-            name: 'recentpunishments',
-            description: 'Get a user\'s recent punishments!',
-            type: ApplicationCommandOptionType.Subcommand,
-            options: [
-                {
-                    name: 'user',
-                    description: 'The user you want to inspect!',
-                    required: true,
-                    type: ApplicationCommandOptionType.User
-                }
-            ]
-        },
-        {
             name: 'unban',
             description: 'Unban a user using their ID!',
             type: ApplicationCommandOptionType.Subcommand,
@@ -117,6 +92,52 @@ export default new Command({
                     description: 'The user you want to timeout',
                     type: ApplicationCommandOptionType.User,
                     required: true,
+                }
+            ]
+        },
+        {
+            name: 'punishments',
+            description: 'Punishment management commands',
+            type: ApplicationCommandOptionType.SubcommandGroup,
+            options: [
+                {
+                    name: 'view',
+                    description: 'View a user\'s recent punishments',
+                    type: ApplicationCommandOptionType.Subcommand,
+                    options: [
+                        {
+                            name: 'user',
+                            description: 'The user you want to check',
+                            type: ApplicationCommandOptionType.User,
+                            required: true,
+                        }
+                    ]
+                },
+                {
+                    name: 'clear',
+                    description: 'Clear a user of their punishments',
+                    type: ApplicationCommandOptionType.Subcommand,
+                    options: [
+                        {
+                            name: 'user',
+                            description: 'The user you want to clear',
+                            type: ApplicationCommandOptionType.User,
+                            required: true
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            name: 'hard-mute',
+            description: 'Mute a user and remove all of their roles',
+            type: ApplicationCommandOptionType.Subcommand,
+            options: [
+                {
+                    name: 'user',
+                    description: 'The user you want to mute',
+                    type: ApplicationCommandOptionType.User,
+                    required: true
                 }
             ]
         }
@@ -227,34 +248,6 @@ export default new Command({
             }
             break;
 
-            case 'status': {
-                const user = opts.getUser('user') || interaction.user;
-                const member = await guild.members.cache.get(user.id);
-
-                if(!member) throw "That member is not in this server.";
-
-                const userjoined = `<t:${Math.round(member.joinedTimestamp / 1000)}> (<t:${Math.round(member.joinedTimestamp / 1000)}:R>)`;
-                const usercreated = `<t:${Math.round(user.createdTimestamp / 1000)}> (<t:${Math.round(user.createdTimestamp / 1000)}:R>)`;
-
-                let vcstatus;
-
-                if(!member.voice.channel) vcstatus = `User is not connected to voice.`;
-                else if(member.voice.channel) vcstatus = `User is connected to voice (<#${member.voice.channel.id}>).\nConnected with ${member.voice.channel.members.size - 1} other members.`;
-
-                return interaction.reply({
-                    embeds: [
-                        new EmbedBuilder()
-                        .setTitle(`User Status - <@${member.id}>`)
-                        .setFields(
-                            { name: 'User Joined', value: `${userjoined}`, inline: true },
-                            { name: 'User Created', value: `${usercreated}`, inline: true },
-                            { name: `VC Status`, value: `${vcstatus}`, inline: true }
-                        )
-                    ]
-                });
-            }
-            break;
-
             case 'recentpunishments': {
                 const user = opts.getUser('user') || interaction.user;
                 const member = await guild.members.cache.get(user.id);
@@ -307,6 +300,33 @@ export default new Command({
                         content: `Successfully excused <@${member.id}> of their timeout.`
                     });
                 } else throw "That user isn't timed out!";
+            }
+            break;
+
+            case 'hard-mute': {
+                const member = await guild.members.cache.get(user.id);
+                if(!member) throw "That user is not in this server.";
+
+                if(member.id === client.user.id) throw "You cannot hard mute me!";
+                if(member.id === interaction.user.id) throw "You cannot hard mute yourself!";
+
+                member.timeout(2.419e+9);
+
+                if(member.roles.cache.size <= 0) {
+                    return Reply(interaction, `Successfully hard-muted <@${member.id}>`, '✅', 'Blurple', true);
+                } else {
+                    const vrs = await member.roles.cache.filter((rs) => rs.position < guild.members.me.roles.highest.position);
+
+                    if(vrs.size <= 0) {
+                        return Reply(interaction, `Successfully hard-muted <@${member.id}>`, '✅', 'Blurple', true);
+                    }
+
+                    vrs.forEach((role) => {
+                        member.roles.remove(role.id);
+                    });
+
+                    return Reply(interaction, `Successfully hard-muted <@${member.id}>`, '✅', 'Blurple', true);
+                }
             }
             break;
         }

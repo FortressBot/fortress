@@ -179,7 +179,15 @@ export default new Command({
 
             case 'purge': {
                 if(validch.type === ChannelType.GuildText) {
-                    const messages = await validch.messages.fetch({ limit: amount + 1 });
+                    const date = new Date();
+                    const ms = date.getTime();
+            
+                    const msgs = await validch.messages.fetch({ limit: amount + 1 });
+            
+                    const timefilter = ms - 1.21e+9;
+
+                    const messages = msgs.filter((ms) => ms.createdTimestamp > timefilter);
+                    
                     await validch.bulkDelete(messages);
 
                     const e = await ConstructEmbed(interaction, `${del} This channel has been purged of ${messages.size} messages.\n**${mod} Moderator: <@${interaction.member.id}>**`);

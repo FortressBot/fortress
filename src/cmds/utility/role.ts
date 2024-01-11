@@ -127,9 +127,9 @@ export default new Command({
 
             case 'check': {
                 if(member.roles.cache.has(validrole.id)) {
-                    return Reply(interaction, `<@${member.id}> does have the role <@&${validrole.id}>`, `✅`, ``, true);
+                    return Reply(interaction, `<@${member.id}> does have the role <@&${validrole.id}>`, `✅`, `Blurple`, true);
                 } else {
-                    return Reply(interaction, `<@${member.id}> does not have the role <@&${validrole.id}>`, `✅`, ``, true);
+                    return Reply(interaction, `<@${member.id}> does not have the role <@&${validrole.id}>`, `✅`, `Blurple`, true);
                 }
             }
             break;
