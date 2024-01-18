@@ -26,10 +26,10 @@ export default new Event("interactionCreate", async (interaction) => {
             });
         } catch (err) {
             console.log(err);
-            const e = await ConstructEmbed(interaction, `**❌ Error**\n*An error has occurred:*\n${err}`);
+            const e = await ConstructEmbed(interaction as ExtendedInteraction, `**❌ Error**\n*An error has occurred:*\n${err}`);
 
             return interaction.reply({
-                embeds: [e]
+                embeds: [e.embed]
             });
         }
     }
