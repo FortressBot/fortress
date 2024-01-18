@@ -2,6 +2,7 @@ import { CommandInteractionOptionResolver, EmbedBuilder } from "discord.js";
 import { client } from "..";
 import { Event } from "../structures/Event";
 import { ExtendedGuild, ExtendedInteraction } from "../typings/Command";
+import ConstructEmbed from '../functions/embedconstructor';
 
 export default new Event("interactionCreate", async (interaction) => {
     if (interaction.isCommand()) {
@@ -25,13 +26,10 @@ export default new Event("interactionCreate", async (interaction) => {
             });
         } catch (err) {
             console.log(err);
+            const e = await ConstructEmbed(interaction, `**❌ Error**\n*An error has occurred:*\n${err}`);
+
             return interaction.reply({
-                embeds: [
-                    new EmbedBuilder()
-                    .setTitle(`❌ Error`)
-                    .setDescription(`${err}`)
-                    .setColor('Red')
-                ]
+                embeds: [e]
             });
         }
     }

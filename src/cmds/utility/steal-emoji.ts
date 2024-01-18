@@ -65,10 +65,11 @@ export default new Command({
         const mod = await getFortressEmoji(client, 'mod');
         const search = await getFortressEmoji(client, 'search');
 
-        const { embed } = await ConstructEmbed(interaction, `${addemoji} An emoji has been stolen.\n**${mod} Moderator: <@${interaction.member.id}>**\n**${emo} Emoji: ${e}**\n**${search} Emoji Name: ${name}**`);
+        const { embed, row } = await ConstructEmbed(interaction, `${addemoji} An emoji has been stolen.\n**${mod} Moderator: <@${interaction.member.id}>**\n**${emo} Emoji: ${e}**\n**${search} Emoji Name: ${name}**`);
 
         return interaction.reply({
-            embeds: [embed]
+            embeds: [embed],
+            components: [row]
         });
     }
 });
