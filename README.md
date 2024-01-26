@@ -19,3 +19,8 @@ if you wish to clone the beta repository, follow the steps below:
 - Rename "config.example.json" to "config.json". This is so Fortress can actually recognise it.
 
 - Fill in config.json with all of your info, including bot token, mongo URI (only if mongo is enabled), and guild ID. (NOTE: Mongo URI is only required IF the property "mongoEnabled" is set to true.)
+
+## contributors:
+- leo (leocodes.)
+- benji (benjisqt)
+- you (fortressuser)
